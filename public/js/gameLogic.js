@@ -1,5 +1,3 @@
-const { Chess } = require("chess.js");
-
 const socket = io();
 const chess = new Chess();
 
@@ -29,22 +27,67 @@ const renderBoard = () => {
           "piece",
           square.color === "w" ? "white" : "black"
         );
-        pieceElem.innerText = "";
+        pieceElem.innerText = getPieceUnicode(square);
         pieceElem.draggable = playerRole === square.color;
-        pieceElem.addEventListener("dragstart", () => {
+        pieceElem.addEventListener("dragstart", (e) => {
           if (pieceElem.draggable) {
             draggedPiece = pieceElem;
             sourceSquare = { row: rowindex, col: squareindex };
+            e.dataTransfer.setData("text/plain", "");
           }
         });
+        pieceElem.addEventListener("dragend", (e) => {
+          draggedPiece = null;
+          sourceSquare = null;
+        });
+
+        squareElem.appendChild(pieceElem);
       }
+
+      squareElem.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+      squareElem.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (draggedPiece) {
+          const targetSource = {
+            row: parseInt(squareElem.dataset.row),
+            col: parseInt(squareElem.dataset.col),
+          };
+
+          handleMove(sourceSquare, targetSource);
+        }
+      });
+      boardElement.appendChild(squareElem);
     });
   });
 };
 
+const handleMove = () => {
+  const move = {
+    from:,
+    to:,
+    promotion: "q"
+  }
+};
 
-const handleMove = () => {};
+const getPieceUnicode = (piece) => {
+  const unicodePieces = {
+    p: "♙",
+    r: "♖",
+    n: "♘",
+    b: "♗",
+    q: "♕",
+    k: "♔",
+    P: "♟",
+    R: "♜",
+    N: "♞",
+    B: "♝",
+    Q: "♛",
+    K: "♚",
+  };
 
-const getPieceUnicode = () => {};
+  return unicodePieces[piece.type] || "";
+};
 
 renderBoard();

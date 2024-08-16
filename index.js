@@ -19,12 +19,9 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get(
-  "/",
-  (req, res) => {
-    res.render("index", { title: "Chess Game" });
-  }
-);
+app.get("/", (req, res) => {
+  res.render("index", { title: "Chess Game" });
+});
 
 io.on("connection", function (uniqueSocket) {
   console.log("connected");
@@ -67,6 +64,6 @@ io.on("connection", function (uniqueSocket) {
   });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App running on port${PORT}`);
 });

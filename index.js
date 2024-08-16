@@ -48,8 +48,18 @@ io.on("connection", function (uniqueSocket) {
       if (chess.turn() === "b" && uniqueSocket.id !== players.black) return;
 
       const result = chess.move(move);
-
-    } catch (err) {}
+      if (result) {
+        currentPlayer = chess.turn();
+        io.emit("move", move);
+        io.emit("boardState", chess.fen());
+      } else {
+        console.log("Invalid Move!");
+        uniqueSocket.emit("Invalid Move", move);
+      }
+    } catch (err) {
+      console.log(err);
+      uniqueSocket.emit("Invalid Move", move);
+    }
   });
 });
 

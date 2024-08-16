@@ -67,6 +67,6 @@ io.on("connection", function (uniqueSocket) {
   });
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`App running on port${PORT}`);
 });

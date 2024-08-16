@@ -42,10 +42,15 @@ io.on("connection", function (uniqueSocket) {
     }
   });
 
-  uniqueSocket.on("move", (move)=>{
-    try{}
-    catch(err){}
-  })
+  uniqueSocket.on("move", (move) => {
+    try {
+      if (chess.turn() === "w" && uniqueSocket.id !== players.white) return;
+      if (chess.turn() === "b" && uniqueSocket.id !== players.black) return;
+
+      const result = chess.move(move);
+
+    } catch (err) {}
+  });
 });
 
 server.listen(3000, () => {

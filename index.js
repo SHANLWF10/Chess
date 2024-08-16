@@ -19,9 +19,12 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("https://chess-one-zeta.vercel.app/", (req, res) => {
-  res.render("index", { title: "Chess Game" });
-});
+app.get(
+  "https://chess-hba1ahho3-shanlwf10s-projects.vercel.app/",
+  (req, res) => {
+    res.render("index", { title: "Chess Game" });
+  }
+);
 
 io.on("connection", function (uniqueSocket) {
   console.log("connected");

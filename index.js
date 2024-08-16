@@ -20,7 +20,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get(
-  "https://chess-hba1ahho3-shanlwf10s-projects.vercel.app/",
+  "/",
   (req, res) => {
     res.render("index", { title: "Chess Game" });
   }

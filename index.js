@@ -34,6 +34,18 @@ io.on("connection", function (uniqueSocket) {
   } else {
     uniqueSocket.emit("spectatorRole");
   }
+  uniqueSocket.on("disconnect", () => {
+    if (uniqueSocket.id === players.white) {
+      delete players.white;
+    } else if (uniqueSocket.id === players.black) {
+      delete players.black;
+    }
+  });
+
+  uniqueSocket.on("move", (move)=>{
+    try{}
+    catch(err){}
+  })
 });
 
 server.listen(3000, () => {

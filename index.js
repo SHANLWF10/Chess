@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Chess Game" });
 });
 
+io.on("connection", function (uniqueSocket) {
+  console.log("connected");
+});
+
 server.listen(3000, () => {
   console.log("running on port 3000");
 });

@@ -7,6 +7,7 @@ const path = require("path");
 const { log } = require("console");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 const io = socket(server);
@@ -63,6 +64,6 @@ io.on("connection", function (uniqueSocket) {
   });
 });
 
-server.listen(3000, () => {
-  console.log("running on port 3000");
+server.listen(PORT, () => {
+  console.log(`App running on port${PORT}`);
 });

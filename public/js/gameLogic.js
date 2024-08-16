@@ -61,14 +61,21 @@ const renderBoard = () => {
       boardElement.appendChild(squareElem);
     });
   });
+
+  if (playerRole === "b") {
+    boardElement.classList.add("flipped");
+  } else {
+    boardElement.classList.remove("flipped");
+  }
 };
 
-const handleMove = () => {
+const handleMove = (source, target) => {
   const move = {
-    from:,
-    to:,
-    promotion: "q"
-  }
+    from: `${String.fromCharCode(97 + source.col)}${8 - source.row}`,
+    to: `${String.fromCharCode(97 + target.col)}${8 - target.row}`,
+    promotion: "q",
+  };
+  socket.emit("move", move);
 };
 
 const getPieceUnicode = (piece) => {
@@ -89,5 +96,24 @@ const getPieceUnicode = (piece) => {
 
   return unicodePieces[piece.type] || "";
 };
+
+socket.on("playerRole", (role) => {
+  playerRole = role;
+  renderBoard();
+});
+
+socket.on("spectatorRole", () => {
+  playerRole = null;
+  renderBoard();
+});
+
+socket.on("boardState", (fen) => {
+  chess.load(fen);
+  renderBoard();
+});
+socket.on("move", (move) => {
+  chess.move(move);
+  renderBoard();
+});
 
 renderBoard();
